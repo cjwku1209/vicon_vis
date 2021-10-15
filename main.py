@@ -93,46 +93,46 @@ xs = joints_3d_relative[:,0]
 ys = joints_3d_relative[:,1]
 zs = joints_3d_relative[:,2]
 
-plotSkeleton(ax, joints_3d_relative, xs, zs, ys, 'grey', 'blue', show_idx=True)
+# plotSkeleton(ax, joints_3d_relative, xs, zs, ys, 'grey', 'blue', show_idx=True)
 
 ## facebook ##
-fb_joints = np.load(facebook_output_file)
-joints = fb_joints[frame_number]*1000
-joints= np.concatenate((joints[:7, :], joints[10:17, :]))
-idx = [0,4,5,6,1,2,3,7,11,12,13,8,9,10]
-joints = joints[idx]
-xs = joints[:,0]
-ys = joints[:,1]
-zs = joints[:,2]
+# fb_joints = np.load(facebook_output_file)
+# joints = fb_joints[frame_number]*1000
+# joints= np.concatenate((joints[:7, :], joints[10:17, :]))
+# idx = [0,1,2,3,4,5,6,7,8,9,10,11,12,13]
+# joints = joints[idx]
+# xs = joints[:,0]
+# ys = joints[:,1]
+# zs = joints[:,2]
 
-mpjpe = mpjpe(torch.from_numpy(joints), torch.from_numpy(joints_3d_relative))
-print(mpjpe)
-# fig, ax = helper.plt_init()
-plotSkeleton(ax, joints, xs, zs, ys, 'black', 'red', show_idx=False)
-plt.show()
+# mpjpe = mpjpe(torch.from_numpy(joints), torch.from_numpy(joints_3d_relative))
+# print(mpjpe)
+# # fig, ax = helper.plt_init()
+# plotSkeleton(ax, joints, xs, zs, ys, 'black', 'red', show_idx=True)
+# plt.show()
 
 
 # VIBE ###
-# vibe_joints = joblib.load(vibe_output_file)
-# m2mm = 1000
-# vibe_pred = vibe_joints[1]['joints3d'][frame_number] * m2mm
+vibe_joints = joblib.load(vibe_output_file)
+m2mm = 1000
+vibe_pred = vibe_joints[1]['joints3d'][frame_number] * m2mm
 
-# vibe_pred = vibe_pred[25:39]
-# vibe_pred = np.insert(vibe_pred, 0, (vibe_pred[2] + vibe_pred[3]) / 2, axis=0)
-# vibe_pred = vibe_pred - vibe_pred[0]
-# vibe_pred = np.delete(vibe_pred, 13, 0)
-# idx = [0, 3, 2, 1, 4, 5, 6, 13, 12, 11, 8, 9, 10, 7]  # change index numbers of vicon joints
-# idx = [0, 3, 2, 1, 4, 5, 6, 13, 12, 11, 10, 9, 8, 7] # 9,11,13 is correct (wrong are 8, 10,12)
-# idxs = [0, 1,2,3,4,5,6,7,10,9,8,11,12,13] # 9,11,13 is correct (wrong are 8, 10,12)
-# vibe_pred = vibe_pred[idx]
-# vibe_pred = vibe_pred[idxs]
+vibe_pred = vibe_pred[25:39]
+vibe_pred = np.insert(vibe_pred, 0, (vibe_pred[2] + vibe_pred[3]) / 2, axis=0)
+vibe_pred = vibe_pred - vibe_pred[0]
+vibe_pred = np.delete(vibe_pred, 13, 0)
+idx = [0, 3, 2, 1, 4, 5, 6, 13, 12, 11, 8, 9, 10, 7]  # change index numbers of vicon joints
+idx = [0, 3, 2, 1, 4, 5, 6, 13, 12, 11, 10, 9, 8, 7] # 9,11,13 is correct (wrong are 8, 10,12)
+idxs = [0, 1,2,3,4,5,6,7,10,9,8,11,12,13] # 9,11,13 is correct (wrong are 8, 10,12)
+vibe_pred = vibe_pred[idx]
+vibe_pred = vibe_pred[idxs]
 
-# xs = vibe_pred[:,0]
-# ys = vibe_pred[:,1]
-# zs = vibe_pred[:,2]
+xs = vibe_pred[:,0]
+ys = vibe_pred[:,1]
+zs = vibe_pred[:,2]
 
-# mpjpe = mpjpe(torch.from_numpy(vibe_pred), torch.from_numpy(joints_3d_relative))
-# print(mpjpe)
-# # fig, ax = helper.plt_init()
-# plotSkeleton(ax, vibe_pred, xs, zs, ys, 'black', 'red', show_idx=False)
-# plt.show()
+mpjpe = mpjpe(torch.from_numpy(vibe_pred), torch.from_numpy(joints_3d_relative))
+print(mpjpe)
+# fig, ax = helper.plt_init()
+plotSkeleton(ax, vibe_pred, xs, zs, ys, 'black', 'red', show_idx=True)
+plt.show()
